@@ -1,19 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector('form').addEventListener('submit',(e) => {
-    e.preventDefault();
-    handleToDo(e.target['new-task-description'].value)
-  });
+  document.getElementById('create-task-form').addEventListener('submit', handleToDo);
 });
-function handleToDo(todo){
-  let p = document.createElement('p');
-  let btn = document.createElement('button');
-  btn.addEventListener('click',handleDelete)
-  btn.textContent = ' x '
-  p.textContent = ` ${todo} `;
-  p.appendChild(btn)
-  document.querySelector('#tasks').appendChild(p);
+
+function handleToDo(e){
+  e.preventDefault();
+  let taskForm = e.target;
+  let inputValue = taskForm['new-task-description'].value
+  let priority = document.getElementById('mySelect').value
+
+  if(inputValue.length > 2) {
+    let li = document.createElement('li');
+    document.getElementById('tasks').appendChild(li);
+    li.textContent = ` ${inputValue} `;
+    li.style.color = priority;
+
+    taskForm.reset();
+
+    let btn = document.createElement('button');
+    btn.addEventListener('click',handleDelete);
+    btn.textContent = ' x ';
+    li.appendChild(btn);
+
+  }
+  else {
+    alert("Needs more Characters")
+  }
 }
 
 function handleDelete(e){
-  e.target.parentNode.remove()
+  e.target.parentNode.remove();
 }
